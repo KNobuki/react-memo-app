@@ -3,16 +3,19 @@ import { styled } from "styled-components";
 
 export const App: FC = () => {
   const [text, setText] = useState<string>("");
-  const [memos, setMemos] = useState<string[]>([
-    "テスト1",
-    "テスト2",
-    "テスト3",
-  ]);
+  const [memos, setMemos] = useState<string[]>([]);
   const onChangeText = (e: ChangeEvent<HTMLInputElement>) =>
     setText(e.target.value);
   const onClickAdd = () => {
-    alert(text + " added!");
+    const newMemos = [...memos];
+    newMemos.push(text);
+    setMemos(newMemos);
     setText("");
+  };
+  const onClickDelete = (index: number) => {
+    const newMemos = [...memos];
+    newMemos.splice(index, 1);
+    setMemos(newMemos);
   };
   return (
     <div>
@@ -26,7 +29,7 @@ export const App: FC = () => {
             <li key={memo}>
               <SMemoWrapper>
                 <p>{memo}</p>
-                <SButton>削除</SButton>
+                <SButton onClick={() => onClickDelete(index)}>削除</SButton>
               </SMemoWrapper>
             </li>
           ))}
